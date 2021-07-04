@@ -1,57 +1,34 @@
 import { IsDate, IsEmail, IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class UpdateUserDto {
-    @IsOptional()
+    @IsNotEmpty({ message : 'Informar o campo nome'})
+    @IsString()
     nome: string;
 
-    @IsOptional()
+    @IsNotEmpty({message: "Informar o campo email"})
+    @IsEmail()
+    email: string
+
+    @IsNotEmpty({ message : 'Informar o campo CPF/CNPJ'})
+    @IsString()
     cpf_cnpj: string;
 
-    @IsOptional()
-    nome_tts: string;
-
-    @IsOptional()
+    @IsNotEmpty({ message : 'Informar o campo id status'})
     id_status: number
 
-    @IsOptional()
+    @IsNotEmpty({ message : 'Informar o campo id tipo usuario'})
     id_tipo_usuario: number
 
-    @IsOptional()
-    endereco: string;
-
-    @IsOptional()
-    subdominio: string;
-
-    @IsOptional()
-    responsavel_financeiro: string;
-
-    @IsOptional()
-    telefone_financeiro: string;
-
-    @IsOptional()
-    email_financeiro: string;
-
-    @IsOptional()
-    responsavel_tecnico: string;
-
-    @IsOptional()
-    telefone_tecnico: string;
-
-    @IsOptional()
-    email_tecnico: string;
-
+    @IsString()
     @IsOptional()
     observacao: string;
-    
-    @IsOptional()
-    id_login_insert: number;
-
-    @IsOptional()
-    dt_insert: string;
 
     @IsOptional()
     id_login_update: number;
 
+    
+    @IsDate()
+    @IsOptional()
     dt_update: string;
 
 }

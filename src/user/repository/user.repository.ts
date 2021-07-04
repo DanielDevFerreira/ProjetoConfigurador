@@ -14,9 +14,7 @@ export class UserRepository extends Repository<tb_usuario>{
            id_status,
            id_tipo_usuario,
            observacao,
-           id_login_insert,
-           id_login_update,
-           dt_update 
+           id_login_insert
         } = createUserDto;
 
         const user = this.create({
@@ -26,9 +24,7 @@ export class UserRepository extends Repository<tb_usuario>{
            id_status,
            id_tipo_usuario,
            observacao,
-           id_login_insert,
-           id_login_update,
-           dt_update
+           id_login_insert
         });
 
         try {

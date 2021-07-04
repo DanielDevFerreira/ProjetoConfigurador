@@ -48,6 +48,7 @@ export class UserController {
 
     @Patch('/:id')
     updateUser(@Param('id') id:string, @Body() updateUserDto: UpdateUserDto): Promise<tb_usuario>{
+        console.log(updateUserDto);
         return this.userService.updateUser(id, updateUserDto);
     }
 }

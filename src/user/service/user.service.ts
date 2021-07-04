@@ -49,12 +49,11 @@ export class UserService {
         const user = await this.getUserById(id);
 
         user.nome = updateUserDto.nome;
+        user.email = updateUserDto.email;
         user.cpf_cnpj = updateUserDto.cpf_cnpj;
         user.id_status = updateUserDto.id_status;
         user.id_tipo_usuario = updateUserDto.id_tipo_usuario;
         user.observacao = updateUserDto.observacao;
-        user.id_login_insert = updateUserDto.id_login_insert;
-        user.dt_insert = updateUserDto.dt_insert;
         user.id_login_update = updateUserDto.id_login_update;
         user.dt_update = new Date();
 

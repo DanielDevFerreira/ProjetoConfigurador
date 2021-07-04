@@ -29,12 +29,4 @@ export class CreateUserDto {
 
     dt_insert: Date;
 
-    @IsOptional()
-    id_login_update: number;
-
-    
-    @IsDate()
-    @IsOptional()
-    dt_update: string;
-
 }
