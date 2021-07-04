@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Patch, Post, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Response } from 'express';
 import { CreateUserDto } from 'src/auth/dto/create-user.dto';
@@ -8,6 +8,8 @@ import { ChangePasswordDto } from '../dto/change-password.dto';
 import { ForgotPasswordDto } from '../dto/forgot-password.dto';
 import { SignUpDto } from '../dto/signup.dto';
 import { TokenConfirmDTO } from '../dto/tokenConfirmDto';
+import { verifyToken } from '../dto/verifyToken.dto';
+import { GetUser } from '../GetUser_decorator.ts/get-user.decorator';
 import { AuthService } from '../service/auth.service';
 
 
@@ -20,7 +22,7 @@ export class AuthController {
 //================================================================================
 
     @Post('createUser')
-    @UseGuards(AuthGuard())
+    // @UseGuards(AuthGuard())
     createUser(@Body() createUserDto: CreateUserDto): Promise<tb_usuario_login>{
         return this.authServive.createUser(createUserDto);
     }
@@ -28,16 +30,42 @@ export class AuthController {
 //================================================================================
 
     @Post('signup')
-    async signup(@Body() signDto: SignUpDto): Promise<tb_usuario_login>{
-        return this.authServive.signUp(signDto);
+    async signup(@Body() signDto: SignUpDto, @Res({passthrough: true}) response: Response){
+        const result =  await this.authServive.signUp(signDto);
+        response.status(HttpStatus.OK).json({
+            result: result
+        }) 
     }
 
 //================================================================================
 
+/**
+ * 
+ * Caso precisar pegar somento 1 parâmetro, existe 3 maneiras de realizar o processo
+ * 1º usando DTO
+ * 2º usando posição ex: tokenConfirm['tokenConfirm']
+ * 3º usando decorator @param(), passando o parâmetro na URL e no @param
+ */
     @Post('email-active')
-    async emailActive(@Body() tokenConfirmDto: TokenConfirmDTO){
-        return this.authServive.emailActive(tokenConfirmDto);
+    async emailActive(@Body() tokenConfirmDto: TokenConfirmDTO, @Res({passthrough: true}) response: Response){
+        const { token } = tokenConfirmDto;
+        const result = await this.authServive.emailActive(token);
+        response.status(HttpStatus.OK).json({
+            result: result
+        }) 
     }
+
+    // @Post('email-active/:token')
+    // async emailActive(@Param("token") token:number){
+    //     console.log(token);
+    //     // console.log(tokenConfirm['tokenConfirm']);
+    //     //return this.authServive.emailActive(tokenConfirm);
+    // }
+
+    // @Post('email-active')
+    // async emailActive(@Body() tokenConfirm: number): Promise<{message: string}>{
+    //     return this.authServive.emailActive(tokenConfirm)      
+    // }
 
 //================================================================================
 
@@ -50,20 +78,27 @@ export class AuthController {
 
     @Post('change-password')
     async changePassword(@Body() changePasswordDto: ChangePasswordDto){
+     //  console.log(changePasswordDto);
         await this.authServive.changePassword(changePasswordDto);
     }
 
 //================================================================================
 
-    @Post('signin')
-    async signIn(@Body() authSignInDto: SignInDto, @Res() response: Response){
-        const token = await this.authServive.signIn(authSignInDto);
-        const retorno =  response.json({
-            message: "Login efetuado com sucesso!",
-            token: token
-        })
+    @Post('verify-token')
+    async verifyToken(@Body() tokendto: verifyToken): Promise<boolean>{
+        console.log(await this.authServive.verifyToken(tokendto));
+        return this.authServive.verifyToken(tokendto);
+    }
+//================================================================================
 
-        return retorno;
+    @Post('signin')
+    async signIn(@Body() authSignInDto: SignInDto, @Res({passthrough: true}) response: Response){
+        const token =  await this.authServive.signIn(authSignInDto);
+
+        // response.cookie('token', token, {httpOnly: true});
+        response.status(HttpStatus.OK).json({
+            token: token
+        })    
     }
 }
 

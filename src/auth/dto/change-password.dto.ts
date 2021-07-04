@@ -10,6 +10,6 @@ export class ChangePasswordDto {
     password: string;
 
     @IsNotEmpty()
-    email: string;
+    id: number;
 
 }

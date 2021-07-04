@@ -6,7 +6,7 @@ export class CreateUserDto{
     id_tipo_login: number;
 
     @IsNotEmpty({ message : 'Informar o campo login'})
-    login: string;
+    username: string;
 
     @IsNotEmpty({ message : 'Informar o campo senha'})
     password: string;

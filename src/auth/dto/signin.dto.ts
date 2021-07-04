@@ -1,6 +1,7 @@
 import { IsNotEmpty, IsString, MaxLength, MinLength } from "class-validator";
 
 export class SignInDto{
+    id: number;
 
     @IsNotEmpty()
     email: string;

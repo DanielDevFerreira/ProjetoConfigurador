@@ -8,13 +8,13 @@ export class MailService {
 
   async sendUserConfirmation(name: string, email: string, tokenConfirm: string) {
     
-    const url = `example.com/auth/confirm`;
+    const url = `http://localhost:4200/account/two-step-verification`;
     const anoAtual = new Date().getFullYear();
  
     await this.mailerService.sendMail({
       to: email,
-      from: '"Configurador" <daniel.ferreira@rastreei.com>', // override default from
-      subject: 'Bem vindo ao Configurador! Confirme seu Email',
+      from: '"Time Fale Flex" <daniel.ferreira@rastreei.com>', // override default from
+      subject: 'Bem vindo ao Fale Flex! Confirme seu Email',
       template: './confirmation', // ✅ template found again in v1.6.0
       context: {
         name: name,
@@ -27,13 +27,13 @@ export class MailService {
 
   async sendForgotPassword(name: string, email: string, tokenConfirm: string) {
     
-    const url = `http://localhost:4200/auth/forgotPassword?token=${tokenConfirm}`;
+    const url = `http://localhost:4200/account/change-password?token=${tokenConfirm}`;
     const anoAtual = new Date().getFullYear();
 
     await this.mailerService.sendMail({
       to: email,
-      from: '"Configurador" <daniel.ferreira@rastreei.com>', // override default from
-      subject: 'Recuperação de senha Configurador',
+      from: '"Time Fale Flex" <daniel.ferreira@rastreei.com>', // override default from
+      subject: 'Recuperação de senha Fale Flex',
       template: './forgotPassword', // ✅ template found again in v1.6.0
       context: {
         name: name,

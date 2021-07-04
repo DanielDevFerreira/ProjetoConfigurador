@@ -5,7 +5,7 @@ export class SignUpDto {
     id_tipo_login: number;
 
     @IsNotEmpty({message: 'Campo login obrigatório'})
-    login: string;
+    username: string;
 
     @IsNotEmpty({message: 'Campo senha obrigatório'})
     //Mínimo de oito caracteres, pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial:

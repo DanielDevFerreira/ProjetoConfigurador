@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, Injectable, InternalServerErrorException, MethodNotAllowedException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, InternalServerErrorException, MethodNotAllowedException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from 'src/auth/dto/create-user.dto';
 import { SignInDto } from 'src/auth/dto/signin.dto';
@@ -9,10 +9,10 @@ import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from 'src/auth/jwt-interface/jwt-payload.interface';
 import { SignUpDto } from '../dto/signup.dto';
 import { MailService } from 'src/mail/mail.service';
-import { TokenConfirmDTO } from '../dto/tokenConfirmDto';
 import { ForgotPasswordDto } from '../dto/forgot-password.dto';
 import { ChangePasswordDto } from '../dto/change-password.dto';
-import * as moment from 'moment';
+import { verifyToken } from '../dto/verifyToken.dto';
+
 
 @Injectable()
 export class AuthService {
@@ -33,11 +33,11 @@ export class AuthService {
 //============================================================================
 
 // function para auto cadastramento do usuário
-async signUp(signUpDto: SignUpDto): Promise<tb_usuario_login>{
+async signUp(signUpDto: SignUpDto){
 
     const{
         id_tipo_login = 2,
-        login,
+        username,
         password,
         name,
         email,
@@ -56,14 +56,14 @@ async signUp(signUpDto: SignUpDto): Promise<tb_usuario_login>{
         const hashedPassword = await bcript.hash(password, salt);
 
         // gerar codigo de validação de email
-        const tokenConfirm = Math.floor(100000 + Math.random() * 900000).toString();
+        const tokenConfirm = Math.floor(1000 + Math.random() * 9000).toString();
 
         //email do email para o usuário recem cadastrado
         await this.mailService.sendUserConfirmation(name, email, tokenConfirm)
 
         const userSignUp = this.authRepository.create({
             id_tipo_login,
-            login,
+            username,
             password: hashedPassword,
             name,
             email,
@@ -75,7 +75,7 @@ async signUp(signUpDto: SignUpDto): Promise<tb_usuario_login>{
         try {
             await this.authRepository.save(userSignUp);
             //console.log(await userSignUp);
-            return userSignUp;
+            return "Usuário cadastrado com sucesso!";
 
         } catch (error) {
             throw new InternalServerErrorException('Error com a conexão com o Bando de Dados'); 
@@ -85,17 +85,19 @@ async signUp(signUpDto: SignUpDto): Promise<tb_usuario_login>{
 //============================================================================
 
     // function para mudar o valor da coluna emailconfirm no banco, para ativa a conta do usuário
-    async emailActive(tokenConfirmDto: TokenConfirmDTO): Promise<{message: string}>{
-       return this.authRepository.emailActive(tokenConfirmDto);      
+    async emailActive(token: string): Promise<{message: string}>{
+       return this.authRepository.emailActive(token);      
     }
 
 //============================================================================
 
 
     async forgotPassword(forgotPasswordDto: ForgotPasswordDto){
-        const { email } = forgotPasswordDto;
-        console.log(email);
+        let { id, email } = forgotPasswordDto;
+        //console.log(email);
         const user  = await this.authRepository.findOne({email})
+
+        id = user.id_usuario_login;
 
         // caso o email informado não existe no banco de dados
         if(!user){
@@ -107,12 +109,9 @@ async signUp(signUpDto: SignUpDto): Promise<tb_usuario_login>{
             throw new MethodNotAllowedException('Sua conta ainda não foi ativada. Por favor ative sua conta primeiro!');
         }
 
-        const payload: JwtPayload = { email };
+        const payload: JwtPayload = { id, email };
         const acessToken = await this.jwtService.sign(payload);
-        console.log(acessToken)
-
-        //email do email para o usuário recem cadastrado
-        await this.mailService.sendForgotPassword(user.name, user.email, acessToken);
+        //console.log(acessToken)
 
         // atualizando o token no Banco de Dados
         user.tokenConfirm = acessToken;
@@ -122,10 +121,25 @@ async signUp(signUpDto: SignUpDto): Promise<tb_usuario_login>{
 
         try {
             await this.authRepository.save(user);
+            //email do email para o usuário recem cadastrado
+            await this.mailService.sendForgotPassword(user.name, user.email, user.tokenConfirm);
         } catch (error) {
             console.log(error);
             throw new InternalServerErrorException('Error com a conexão com o Bando de Dados'); 
         }
+    }
+
+//============================================================================
+
+    async verifyToken(tokendto: verifyToken): Promise<boolean>{
+        const { tokenConfirm } = tokendto;
+        const result  = await this.authRepository.findOne({tokenConfirm});
+
+            if(result){
+                return true;
+            }else {
+                throw new NotFoundException(`Token não cadastrado na Base de dados`);
+            }  
     }
 
 //============================================================================
@@ -137,21 +151,23 @@ async signUp(signUpDto: SignUpDto): Promise<tb_usuario_login>{
 
 //============================================================================
 
-    async signIn(signInDto: SignInDto): Promise<{ acessToken: string }>{
-        const { email, password } = signInDto;
-        console.log(email, password)
+    async signIn(signInDto: SignInDto){
+        const {  email, password } = signInDto;
+        //console.log(email, password)
         //verificar se existe o login
         const userLogin = await this.authRepository.findOne({ email });
 
         //caso o login exista e a senha esteja correta, faça
         if(userLogin && userLogin.confirm_email == 1 && (await bcript.compare(password, userLogin.password))){
             // geraldo o token para o login
-            const payload: JwtPayload = { email };
+
+            const id = userLogin.id_usuario_login;
+            const payload: JwtPayload = { id, email };
             const acessToken = await this.jwtService.sign(payload);
-            return { acessToken };
+            return  acessToken;
         //conta ainda não ativada pelo email    
         }else if(userLogin && userLogin.confirm_email == 0 && (await bcript.compare(password, userLogin.password))){
-            throw new UnauthorizedException('Conta informada, não estar ativada !');
+            throw new UnauthorizedException('Conta não ativada!');
         }else{
             throw new UnauthorizedException('Por Favor, verificar as credendiais do login');
         }

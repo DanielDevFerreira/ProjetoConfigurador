@@ -14,7 +14,7 @@ export class AuthRepository extends Repository<tb_usuario_login>{
     
     async createUser(createUserDto: CreateUserDto): Promise<tb_usuario_login>{
 
-        const {login, email, password} = createUserDto;
+        const {username, email, password} = createUserDto;
         const userExist = await this.findOne({email});
 
         if(userExist){
@@ -23,7 +23,7 @@ export class AuthRepository extends Repository<tb_usuario_login>{
 
             const{
                 id_tipo_login,
-                login,
+                username,
                 password,
                 name,
                 email,
@@ -38,7 +38,7 @@ export class AuthRepository extends Repository<tb_usuario_login>{
 
             const user = this.create({
                 id_tipo_login,
-                login,
+                username,
                 password: hashedPassword,
                 name,
                 email,
@@ -57,8 +57,7 @@ export class AuthRepository extends Repository<tb_usuario_login>{
 
 //================================================================================
 
-    async emailActive(tokenConfirmDto: TokenConfirmDTO): Promise<{message: string}>{
-        const { token } = tokenConfirmDto;
+    async emailActive(token: string): Promise<{message: string}>{
         const sql = await this.createQueryBuilder('user')
         .where("user.tokenConfirm = :token", {token: token})
         .getOne();
@@ -74,21 +73,21 @@ export class AuthRepository extends Repository<tb_usuario_login>{
                 return { message: "Sua conta foi ativado com sucesso!"}
             }
         }else{
-            return {message: "Error ao ativa sua conta, tente novamente !"}
+            throw new InternalServerErrorException('Código invalido !'); 
         }
     }
 
 //================================================================================
 
     async changePassword(changePasswordDto: ChangePasswordDto){
-        const { password, email } = changePasswordDto;
+        const { password, id } = changePasswordDto;
 
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        console.log(changePasswordDto)
+       // console.log(changePasswordDto)
         const sql = await this.createQueryBuilder('user')
-        .where("user.email = :email", {email: email})
+        .where("user.id_usuario_login = :id", {id: id})
         .getOne();
 
         console.log(sql);
@@ -96,8 +95,8 @@ export class AuthRepository extends Repository<tb_usuario_login>{
         if(sql){
             const updatePassword = await this.createQueryBuilder('user')
             .update(tb_usuario_login)
-            .set({password: hashedPassword})
-            .where("email = :email", { email: email })
+            .set({password: hashedPassword, tokenConfirm: null})
+            .where("id_usuario_login = :id", { id: id })
             .execute();
 
             if(updatePassword){

@@ -1,5 +1,5 @@
 import { tb_usuario } from "src/user/entity/user.entity";
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class tb_usuario_login{
@@ -12,7 +12,7 @@ export class tb_usuario_login{
     @Column({type: 'int', default: 0})
     confirm_email: number;
     
-    @Column({nullable: true})
+    @Column({ length: 500, nullable: true})
     tokenConfirm: string;
 
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
@@ -22,7 +22,7 @@ export class tb_usuario_login{
     id_tipo_login: number;
 
     @Column({ length: 20 })
-    login: string;
+    username: string;
 
     @Column({ length: 100 })
     password: string;
@@ -48,6 +48,6 @@ export class tb_usuario_login{
     @Column({ type: "datetime", nullable: true})
     dt_update: string;
 
-    @OneToOne(() => tb_usuario, user => user.login)
-    user: tb_usuario;
+    // @OneToOne(() => tb_usuario, user => user.user)
+    // user_login: tb_usuario;
 }

@@ -36,6 +36,6 @@ export class tb_usuario{
     @Column({ type: "datetime", nullable: true})
     dt_update: Date;
 
-    @OneToOne(() => tb_usuario_login, login => login.user)
-    login: tb_usuario_login;
+    // @OneToOne(() => tb_usuario_login, login => login.user)
+    // login: tb_usuario_login;
 }
