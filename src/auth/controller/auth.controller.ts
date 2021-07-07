@@ -6,6 +6,7 @@ import { SignInDto } from 'src/auth/dto/signin.dto';
 import { tb_usuario_login } from 'src/auth/entity/auth.entity';
 import { ChangePasswordDto } from '../dto/change-password.dto';
 import { ForgotPasswordDto } from '../dto/forgot-password.dto';
+import { ResetPasswordDto } from '../dto/reset-password.dto';
 import { SignUpDto } from '../dto/signup.dto';
 import { TokenConfirmDTO } from '../dto/tokenConfirmDto';
 import { verifyToken } from '../dto/verifyToken.dto';
@@ -91,6 +92,14 @@ export class AuthController {
     }
 //================================================================================
 
+    @Post('reset-password')
+    async resetPassword(@Body() resetPasswordDto: ResetPasswordDto){
+        return this.authServive.resetPassword(resetPasswordDto);
+    }
+
+
+//================================================================================
+
     @Post('signin')
     async signIn(@Body() authSignInDto: SignInDto, @Res({passthrough: true}) response: Response){
         const token =  await this.authServive.signIn(authSignInDto);
@@ -100,5 +109,6 @@ export class AuthController {
             token: token
         })    
     }
+
 }
 

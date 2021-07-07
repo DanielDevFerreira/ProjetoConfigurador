@@ -12,6 +12,7 @@ import { MailService } from 'src/mail/mail.service';
 import { ForgotPasswordDto } from '../dto/forgot-password.dto';
 import { ChangePasswordDto } from '../dto/change-password.dto';
 import { verifyToken } from '../dto/verifyToken.dto';
+import { ResetPasswordDto } from '../dto/reset-password.dto';
 
 
 @Injectable()
@@ -151,25 +152,88 @@ async signUp(signUpDto: SignUpDto){
 
 //============================================================================
 
-    async signIn(signInDto: SignInDto){
-        const {  email, password } = signInDto;
-        //console.log(email, password)
-        //verificar se existe o login
-        const userLogin = await this.authRepository.findOne({ email });
+async resetPassword(resertPasswordDto: ResetPasswordDto){
+    let { id, email } = resertPasswordDto;
+    //console.log(email);
+    const user  = await this.authRepository.findOne({email})
 
-        //caso o login exista e a senha esteja correta, faça
-        if(userLogin && userLogin.confirm_email == 1 && (await bcript.compare(password, userLogin.password))){
-            // geraldo o token para o login
+    id = user.id_usuario_login;
+    user.id_status = 0;
 
-            const id = userLogin.id_usuario_login;
-            const payload: JwtPayload = { id, email };
-            const acessToken = await this.jwtService.sign(payload);
-            return  acessToken;
-        //conta ainda não ativada pelo email    
-        }else if(userLogin && userLogin.confirm_email == 0 && (await bcript.compare(password, userLogin.password))){
-            throw new UnauthorizedException('Conta não ativada!');
-        }else{
-            throw new UnauthorizedException('Por Favor, verificar as credendiais do login');
-        }
+    // caso o email informado não existe no banco de dados
+    if(!user){
+        throw new BadRequestException('Email Inválido!')
     }
+
+    // caso o usuario ainda não ativou a conta pelo o email de verificação
+    if(user.confirm_email == 0){
+        throw new MethodNotAllowedException('Sua conta ainda não foi ativada. Por favor ative sua conta primeiro!');
+    }
+
+    const payload: JwtPayload = { id, email };
+    const acessToken = await this.jwtService.sign(payload);
+    //console.log(acessToken)
+
+    // atualizando o token no Banco de Dados
+    user.tokenConfirm = acessToken;
+
+    // // atualizando a data de validação do token
+     user.dt_token_validation = new Date();
+
+    try {
+        await this.authRepository.save(user);
+        //email do email para o usuário recem cadastrado
+        await this.mailService.sendForgotPassword(user.name, user.email, user.tokenConfirm);
+    } catch (error) {
+        console.log(error);
+        throw new InternalServerErrorException('Error com a conexão com o Bando de Dados'); 
+    }
+}
+
+
+//=============================================================================
+
+async signIn(signInDto: SignInDto){
+    const {  email, password } = signInDto;
+    //console.log(email, password)
+    //verificar se existe o login
+    const userLogin = await this.authRepository.findOne({ email });
+
+    if(userLogin && userLogin.id_status == 0 && userLogin.confirm_email == 1 && (await bcript.compare(password, userLogin.password))){
+        return false;
+    }else if(userLogin && userLogin.confirm_email == 0 && (await bcript.compare(password, userLogin.password))){
+        throw new UnauthorizedException('Conta não ativada!');
+    }else if(userLogin && userLogin.confirm_email == 1 && (await bcript.compare(password, userLogin.password))){
+        // geraldo o token para o login
+        const id = userLogin.id_usuario_login;
+        const payload: JwtPayload = { id, email };
+        const acessToken = await this.jwtService.sign(payload);
+        return  acessToken;
+    }else{
+        throw new UnauthorizedException('Por Favor, verificar as credendiais do login');
+    }
+}
+
+
+    // async signIn(signInDto: SignInDto){
+    //     const {  email, password } = signInDto;
+    //     //console.log(email, password)
+    //     //verificar se existe o login
+    //     const userLogin = await this.authRepository.findOne({ email });
+
+    //     //caso o login exista e a senha esteja correta, faça
+    //     if(userLogin && userLogin.confirm_email == 1 && (await bcript.compare(password, userLogin.password))){
+    //         // geraldo o token para o login
+
+    //         const id = userLogin.id_usuario_login;
+    //         const payload: JwtPayload = { id, email };
+    //         const acessToken = await this.jwtService.sign(payload);
+    //         return  acessToken;
+    //     //conta ainda não ativada pelo email    
+    //     }else if(userLogin && userLogin.confirm_email == 0 && (await bcript.compare(password, userLogin.password))){
+    //         throw new UnauthorizedException('Conta não ativada!');
+    //     }else{
+    //         throw new UnauthorizedException('Por Favor, verificar as credendiais do login');
+    //     }
+    // }
 }

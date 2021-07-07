@@ -95,7 +95,7 @@ export class AuthRepository extends Repository<tb_usuario_login>{
         if(sql){
             const updatePassword = await this.createQueryBuilder('user')
             .update(tb_usuario_login)
-            .set({password: hashedPassword, tokenConfirm: null})
+            .set({password: hashedPassword, tokenConfirm: null, id_status: 1})
             .where("id_usuario_login = :id", { id: id })
             .execute();
 

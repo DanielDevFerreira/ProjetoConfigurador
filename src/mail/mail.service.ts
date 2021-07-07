@@ -13,8 +13,8 @@ export class MailService {
  
     await this.mailerService.sendMail({
       to: email,
-      from: '"Time Fale Flex" <daniel.ferreira@rastreei.com>', // override default from
-      subject: 'Bem vindo ao Fale Flex! Confirme seu Email',
+      from: '"Bem vindo ao Configurador" <daniel.ferreira@rastreei.com>', // override default from
+      subject: 'Bem vindo ao Configurador! Confirme seu Email',
       template: './confirmation', // ✅ template found again in v1.6.0
       context: {
         name: name,
@@ -32,8 +32,8 @@ export class MailService {
 
     await this.mailerService.sendMail({
       to: email,
-      from: '"Time Fale Flex" <daniel.ferreira@rastreei.com>', // override default from
-      subject: 'Recuperação de senha Fale Flex',
+      from: '"Configurador Recuperação de senha" <daniel.ferreira@rastreei.com>', // override default from
+      subject: 'Recuperação de senha Configurador',
       template: './forgotPassword', // ✅ template found again in v1.6.0
       context: {
         name: name,
