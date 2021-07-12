@@ -90,7 +90,7 @@ export class AuthRepository extends Repository<tb_usuario_login>{
         .where("user.id_usuario_login = :id", {id: id})
         .getOne();
 
-        console.log(sql);
+       // console.log(sql);
 
         if(sql){
             const updatePassword = await this.createQueryBuilder('user')

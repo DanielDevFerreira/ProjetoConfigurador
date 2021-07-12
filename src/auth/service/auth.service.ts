@@ -13,6 +13,7 @@ import { ForgotPasswordDto } from '../dto/forgot-password.dto';
 import { ChangePasswordDto } from '../dto/change-password.dto';
 import { verifyToken } from '../dto/verifyToken.dto';
 import { ResetPasswordDto } from '../dto/reset-password.dto';
+import { UpdateAccountDto } from '../dto/update-account.dto';
 
 
 @Injectable()
@@ -125,7 +126,7 @@ async signUp(signUpDto: SignUpDto){
             //email do email para o usuário recem cadastrado
             await this.mailService.sendForgotPassword(user.name, user.email, user.tokenConfirm);
         } catch (error) {
-            console.log(error);
+           // console.log(error);
             throw new InternalServerErrorException('Error com a conexão com o Bando de Dados'); 
         }
     }
@@ -236,4 +237,38 @@ async signIn(signInDto: SignInDto){
     //         throw new UnauthorizedException('Por Favor, verificar as credendiais do login');
     //     }
     // }
+
+
+    
+async userAccount(id:string): Promise<tb_usuario_login>{
+    const found = await this.authRepository.findOne(id);
+
+    if(!found){
+        throw new NotFoundException(`Usuario com ID ${id} não encontrado!`);
+    }
+
+    return found;
+}
+ 
+async updateAccount(id:string, updateAccountDto: UpdateAccountDto): Promise<tb_usuario_login>{
+    const myAccount = await this.userAccount(id);
+   // console.log(myAccount);
+    myAccount.name = updateAccountDto.name;
+    myAccount.email = updateAccountDto.email;
+    myAccount.cpf_cnpj = updateAccountDto.cpf_cnpj;
+    myAccount.id_status = updateAccountDto.id_status;
+    myAccount.observacao = updateAccountDto.observacao;
+    myAccount.id_login_update = updateAccountDto.id_login_update;
+    myAccount.telefone = updateAccountDto.telefone;
+    myAccount.dt_nascimento = updateAccountDto.dt_nascimento;
+    
+
+
+    try {
+        await this.authRepository.save(myAccount);
+        return myAccount;
+    } catch (error) {
+        throw new InternalServerErrorException('Error com a conexão com o Bando de Dados'); 
+    }
+}
 }

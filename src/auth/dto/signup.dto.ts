@@ -7,7 +7,7 @@ export class SignUpDto {
     @IsNotEmpty({message: 'Campo login obrigatório'})
     username: string;
 
-    @IsNotEmpty({message: 'Campo senha obrigatório'})
+    @IsNotEmpty({message: ' '})
     //Mínimo de oito caracteres, pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial:
     @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,{
         message: 'Senha inválida, verifique as solicitações para criar a senha!'

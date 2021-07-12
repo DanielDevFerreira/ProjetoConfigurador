@@ -51,4 +51,6 @@ export class UserController {
         console.log(updateUserDto);
         return this.userService.updateUser(id, updateUserDto);
     }
+
+  
 }

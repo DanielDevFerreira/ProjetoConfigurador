@@ -1,4 +1,5 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { tb_usuario_login } from 'src/auth/entity/auth.entity';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { UpdateUserDto } from 'src/user/dto/update-user.dto';
 import { tb_usuario } from 'src/user/entity/user.entity';
@@ -64,4 +65,5 @@ export class UserService {
     }
 
 //=====================================================
+
 }

@@ -32,11 +32,11 @@ export class MailService {
 
     await this.mailerService.sendMail({
       to: email,
-<<<<<<< HEAD
+
       from: '"Configurador Recuperação de senha" <daniel.ferreira@rastreei.com>', // override default from
-=======
-      from: '"Recuperação de senha Configurador" <daniel.ferreira@rastreei.com>', // override default from
->>>>>>> aaab561ac2e7750f161635cf8243fc4f682a7f42
+
+      // from: '"Recuperação de senha Configurador" <daniel.ferreira@rastreei.com>', // override default from
+
       subject: 'Recuperação de senha Configurador',
       template: './forgotPassword', // ✅ template found again in v1.6.0
       context: {

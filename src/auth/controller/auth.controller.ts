@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Patch, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Patch, Post, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Response } from 'express';
 import { CreateUserDto } from 'src/auth/dto/create-user.dto';
@@ -9,6 +9,7 @@ import { ForgotPasswordDto } from '../dto/forgot-password.dto';
 import { ResetPasswordDto } from '../dto/reset-password.dto';
 import { SignUpDto } from '../dto/signup.dto';
 import { TokenConfirmDTO } from '../dto/tokenConfirmDto';
+import { UpdateAccountDto } from '../dto/update-account.dto';
 import { verifyToken } from '../dto/verifyToken.dto';
 import { GetUser } from '../GetUser_decorator.ts/get-user.decorator';
 import { AuthService } from '../service/auth.service';
@@ -79,7 +80,7 @@ export class AuthController {
 
     @Post('change-password')
     async changePassword(@Body() changePasswordDto: ChangePasswordDto){
-     //  console.log(changePasswordDto);
+      // console.log(changePasswordDto);
         await this.authServive.changePassword(changePasswordDto);
     }
 
@@ -87,7 +88,7 @@ export class AuthController {
 
     @Post('verify-token')
     async verifyToken(@Body() tokendto: verifyToken): Promise<boolean>{
-        console.log(await this.authServive.verifyToken(tokendto));
+      //  console.log(await this.authServive.verifyToken(tokendto));
         return this.authServive.verifyToken(tokendto);
     }
 //================================================================================
@@ -108,6 +109,18 @@ export class AuthController {
         response.status(HttpStatus.OK).json({
             token: token
         })    
+    }
+//====================================================================================
+    @Get('/:id')
+    async userAccount(@Param('id') id:string): Promise<tb_usuario_login>{
+       // console.log(await this.authServive.userAccount(id));
+        return await this.authServive.userAccount(id);
+    }
+//======================================================================================
+    @Patch('/:id')
+    async updateAccount(@Param('id') id:string, @Body() myAccount: UpdateAccountDto){
+       // console.log(myAccount);
+        return this.authServive.updateAccount(id, myAccount);
     }
 
 }

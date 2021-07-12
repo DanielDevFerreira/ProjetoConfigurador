@@ -1,5 +1,8 @@
 import { tb_usuario } from "src/user/entity/user.entity";
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index, JoinColumn, OneToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
+ 
+
+@Index(["email", "cpf_cnpj"], {unique: true})
 
 @Entity()
 export class tb_usuario_login{
@@ -8,6 +11,9 @@ export class tb_usuario_login{
 
     @Column({ type: "tinyint", default: 1})
     id_status: number;
+
+    @Column({ length: 20 })
+    cpf_cnpj: string; 
 
     @Column({type: 'int', default: 0})
     confirm_email: number;
@@ -30,7 +36,7 @@ export class tb_usuario_login{
     @Column({ length: 100 })
     name: string;
 
-    @Column({ length: 100, unique: true })
+    @Column({ length: 100 })
     email: string;
 
     @Column({ length: 500, nullable: true })
@@ -45,8 +51,22 @@ export class tb_usuario_login{
     @Column({ type: "bigint", nullable: true})
     id_login_update: number;
 
-    @Column({ type: "datetime", nullable: true})
+    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
     dt_update: string;
+
+    @Column({ type: "text", nullable: true})
+    telefone: string;
+
+    @Column({ type: "date", nullable: true})
+    dt_nascimento: Date; 
+ 
+    // @Column({ type: "bigint", nullable: true})
+    // id_tipo_usuario: number;
+
+    
+
+    // @Column({ length: 20, unique: true })
+    // cpf_cnpj: string; 
 
     // @OneToOne(() => tb_usuario, user => user.user)
     // user_login: tb_usuario;
