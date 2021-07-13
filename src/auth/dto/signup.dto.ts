@@ -28,5 +28,7 @@ export class SignUpDto {
     id_login_insert: number;
 
     dt_insert: string;
+
+    id_usuario: number;
     
 }
