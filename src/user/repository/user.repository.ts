@@ -8,7 +8,7 @@ export class UserRepository extends Repository<tb_usuario>{
 
     async createUser(createUserDto: CreateUserDto): Promise<tb_usuario>{
         const {
-           nome,
+           name,
            email,
            cpf_cnpj,
            id_status,
@@ -18,7 +18,7 @@ export class UserRepository extends Repository<tb_usuario>{
         } = createUserDto;
 
         const user = this.create({
-           nome,
+           name,
            email,
            cpf_cnpj,
            id_status,

@@ -1,9 +1,5 @@
-import { tb_usuario } from "src/user/entity/user.entity";
-import { Column, Entity, Index, JoinColumn, OneToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
- 
-
+import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 @Index(["email", "cpf_cnpj"], {unique: true})
-
 @Entity()
 export class tb_usuario_login{
     @PrimaryGeneratedColumn({type: "bigint"})
@@ -28,7 +24,7 @@ export class tb_usuario_login{
     id_tipo_login: number;
 
     @Column({ length: 20 })
-    username: string;
+    login: string;
 
     @Column({ length: 100 })
     password: string;

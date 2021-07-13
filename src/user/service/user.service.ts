@@ -46,7 +46,7 @@ export class UserService {
     async updateUser(id:string, updateUserDto: UpdateUserDto): Promise<tb_usuario>{
         const user = await this.getUserById(id);
 
-        user.nome = updateUserDto.nome;
+        user.name = updateUserDto.name;
         user.email = updateUserDto.email;
         user.cpf_cnpj = updateUserDto.cpf_cnpj;
         user.id_status = updateUserDto.id_status;

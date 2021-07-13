@@ -33,7 +33,7 @@ export class UserController {
     // insert tb_usuario
     @Post('create')
     createUser(@Body() createUserDto: CreateUserDto): Promise<tb_usuario>{
-       console.log(createUserDto);
+       //console.log(createUserDto);
         return this.userService.createUser(createUserDto);
     }
 

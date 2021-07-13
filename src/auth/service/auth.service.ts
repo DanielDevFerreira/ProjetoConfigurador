@@ -39,7 +39,7 @@ async signUp(signUpDto: SignUpDto){
 
     const{
         id_tipo_login = 2,
-        username,
+        login,
         password,
         name,
         email,
@@ -65,7 +65,7 @@ async signUp(signUpDto: SignUpDto){
 
         const userSignUp = this.authRepository.create({
             id_tipo_login,
-            username,
+            login,
             password: hashedPassword,
             name,
             email,
@@ -207,7 +207,8 @@ async signIn(signInDto: SignInDto){
     }else if(userLogin && userLogin.confirm_email == 1 && (await bcript.compare(password, userLogin.password))){
         // geraldo o token para o login
         const id = userLogin.id_usuario_login;
-        const payload: JwtPayload = { id, email };
+        const name = userLogin.name
+        const payload: JwtPayload = { id, email, name };
         const acessToken = await this.jwtService.sign(payload);
         return  acessToken;
     }else{

@@ -3,7 +3,7 @@ import { IsDate, IsEmail, IsNotEmpty, IsOptional, IsString } from "class-validat
 export class CreateUserDto {
     @IsNotEmpty({ message : 'Informar o campo nome'})
     @IsString()
-    nome: string;
+    name: string;
 
     @IsNotEmpty({message: "Informar o campo email"})
     @IsEmail()

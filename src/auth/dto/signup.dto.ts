@@ -1,11 +1,11 @@
-import { IsDecimal, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString, Matches, MATCHES } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString, Matches } from "class-validator";
 
 export class SignUpDto {
     
     id_tipo_login: number;
 
     @IsNotEmpty({message: 'Campo login obrigatório'})
-    username: string;
+    login: string;
 
     @IsNotEmpty({message: ' '})
     //Mínimo de oito caracteres, pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial:

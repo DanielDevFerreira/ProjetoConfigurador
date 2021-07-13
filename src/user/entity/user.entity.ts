@@ -7,7 +7,7 @@ export class tb_usuario{
     id_usuario: number;
 
     @Column({ length: 100})
-    nome: string;
+    name: string;
 
     @Column({ length: 100})
     email: string;
