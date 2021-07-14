@@ -7,7 +7,7 @@ import { UserService } from 'src/user/service/user.service';
 
 
 @Controller('user')
-// @UseGuards(AuthGuard())
+@UseGuards(AuthGuard())
 export class UserController {
 
     constructor(private userService: UserService){}
@@ -51,6 +51,8 @@ export class UserController {
         console.log(updateUserDto);
         return this.userService.updateUser(id, updateUserDto);
     }
+
+//=====================================================
 
   
 }

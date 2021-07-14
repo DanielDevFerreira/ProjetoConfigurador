@@ -11,9 +11,7 @@ import { SignUpDto } from '../dto/signup.dto';
 import { TokenConfirmDTO } from '../dto/tokenConfirmDto';
 import { UpdateAccountDto } from '../dto/update-account.dto';
 import { verifyToken } from '../dto/verifyToken.dto';
-import { GetUser } from '../GetUser_decorator.ts/get-user.decorator';
 import { AuthService } from '../service/auth.service';
-
 
 @Controller('auth')
 export class AuthController {
@@ -24,7 +22,7 @@ export class AuthController {
 //================================================================================
 
     @Post('createUser')
-    // @UseGuards(AuthGuard())
+    @UseGuards(AuthGuard())
     createUser(@Body() createUserDto: CreateUserDto): Promise<tb_usuario_login>{
         return this.authServive.createUser(createUserDto);
     }

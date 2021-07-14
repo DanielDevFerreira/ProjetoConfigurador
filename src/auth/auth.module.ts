@@ -7,9 +7,6 @@ import { AuthController } from './controller/auth.controller';
 import { JwtStrategy } from './jwt-strategy.ts/jwt-strategy';
 import { AuthRepository } from './repository/auth.repository';
 import { AuthService } from './service/auth.service';
-import { SessionSerializer } from './session/session.serializer';
-
-
 @Module({
     imports:[
         PassportModule.register({defaultStrategy: 'jwt'}),
@@ -25,7 +22,7 @@ import { SessionSerializer } from './session/session.serializer';
         MailModule
     ],
     controllers:[AuthController],
-    providers:[AuthService, JwtStrategy, SessionSerializer],
+    providers:[AuthService, JwtStrategy],
     exports:[JwtStrategy, PassportModule]
 })
 export class AuthModule {}
