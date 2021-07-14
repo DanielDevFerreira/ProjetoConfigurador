@@ -1,4 +1,5 @@
-import { Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { tb_modelo } from "src/modelo/entity/modelo.entity";
+import { Column, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class tb_fabricante{
@@ -28,4 +29,7 @@ export class tb_fabricante{
 
     @DeleteDateColumn()
     deletedAt: Date;
+
+    @OneToMany(type => tb_modelo, modelo => modelo.fabricante)
+    modelo: number;
 }

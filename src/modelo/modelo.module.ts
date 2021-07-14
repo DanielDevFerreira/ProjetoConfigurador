@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ModeloController } from './controller/modelo.controller';
-import { ModeloEntity } from './repository/modelo.repository';
-import { ModeloService } from './service/modelo.service';
+import { ModelController } from './controller/modelo.controller';
+import { ModelRepository } from './repository/model.repository';
+import { ModelService } from './service/modelo.service';
 
 @Module({
   imports:[
     TypeOrmModule.forFeature([
-      ModeloEntity
+      ModelRepository
     ]),
   ],
-  controllers: [ModeloController],
-  providers: [ModeloService]
+  controllers: [ModelController],
+  providers: [ModelService]
 })
 export class ModeloModule {}
