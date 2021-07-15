@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { MailModule } from './mail/mail.module';
 import { ModeloModule } from './modelo/modelo.module';
 import { FabricanteModule } from './fabricante/fabricante.module';
+import { CommandTypeModule } from './tipo_comando/tipo-comando.module';
 
 
 @Module({
@@ -23,7 +24,8 @@ import { FabricanteModule } from './fabricante/fabricante.module';
     AuthModule,
     MailModule,
     ModeloModule,
-    FabricanteModule
+    FabricanteModule,
+    CommandTypeModule
   ],
   controllers: [],
   providers: [],
