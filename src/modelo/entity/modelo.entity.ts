@@ -1,6 +1,7 @@
+import { tb_comando } from "src/comando/entity/comando.entity";
 import { tb_fabricante } from "src/fabricante/entity/fabricante.entity";
 import { tb_tipo_comando } from "src/tipo_comando/entity/tipo-comando.entity";
-import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class tb_modelo{
@@ -34,6 +35,10 @@ export class tb_modelo{
     @ManyToOne(type => tb_fabricante, fabricante => fabricante.modelo)
     @JoinColumn({name: 'id_fabricante'})
     fabricante: number;
+
+    @ManyToMany(type => tb_comando, comando => comando.modelo)
+    @JoinColumn({name: 'id_fabricante'})
+    comando: number;
 
     @OneToMany(type => tb_tipo_comando, tipo_comando => tipo_comando.modelo)
     tipo_comando: number;

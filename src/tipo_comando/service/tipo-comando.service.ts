@@ -14,7 +14,7 @@ export class CommandTypeService {
 //==========================================================================================
 
     async createCommandType(commandoTypelDto: CommandTypeDto): Promise<tb_tipo_comando>{
-       return await this.commandTypeRepository.createModel(commandoTypelDto);  
+       return await this.commandTypeRepository.createCommandType(commandoTypelDto);  
     }
 
 //==========================================================================================
@@ -60,9 +60,9 @@ export class CommandTypeService {
 
     async deleteCommandType(id:string) {
 
-        const manufacturer = await this.commandTypeRepository.findOne(id);
+        const commandoType = await this.commandTypeRepository.findOne(id);
 
-        if(!manufacturer){
+        if(!commandoType){
             throw new NotFoundException(`Tipo comando com ID ${id} não encontrado!`);
         }else {
             try {

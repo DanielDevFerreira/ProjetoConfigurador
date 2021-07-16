@@ -4,7 +4,7 @@ import { UpdateCommandTypeDto } from '../dto/update-tipo-comando.dto';
 import { tb_tipo_comando } from '../entity/tipo-comando.entity';
 import { CommandTypeService } from '../service/tipo-comando.service';
 
-@Controller('modelo')
+@Controller('tipo-comando')
 export class CommandTypeController {
 
     

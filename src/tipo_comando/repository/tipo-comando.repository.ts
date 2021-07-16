@@ -5,7 +5,7 @@ import {  tb_tipo_comando } from "../entity/tipo-comando.entity";
 
 @EntityRepository(tb_tipo_comando)
 export class CommandTypeRepository extends Repository<tb_tipo_comando>{
-    async createModel(commandTypeDto: CommandTypeDto): Promise<tb_tipo_comando>{
+    async createCommandType(commandTypeDto: CommandTypeDto): Promise<tb_tipo_comando>{
         const {
             tipo_comando,
             id_status,
