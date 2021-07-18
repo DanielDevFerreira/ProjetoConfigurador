@@ -45,7 +45,6 @@ export class CommandTypeService {
         commandType.observacao = updateCommandTypeDto.observacao;
         commandType.observacao = updateCommandTypeDto.observacao;
         commandType.id_login_update = updateCommandTypeDto.id_login_update;
-        commandType.modelo = updateCommandTypeDto.id_modelo
         commandType.dt_update = new Date();
         
         try {

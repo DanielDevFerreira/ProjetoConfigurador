@@ -14,8 +14,5 @@ export class UpdateCommandTypeDto{
     @IsOptional()
     id_login_update: number;
 
-    @IsNotEmpty({message: 'Obrigatório informar o fabricante'})
-    id_modelo: number;
-
     dt_update: Date;
 }

@@ -1,7 +1,7 @@
 import { tb_comando } from "src/comando/entity/comando.entity";
 import { tb_fabricante } from "src/fabricante/entity/fabricante.entity";
 import { tb_tipo_comando } from "src/tipo_comando/entity/tipo-comando.entity";
-import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, DeleteDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class tb_modelo{
@@ -36,11 +36,18 @@ export class tb_modelo{
     @JoinColumn({name: 'id_fabricante'})
     fabricante: number;
 
-    @ManyToMany(type => tb_comando, comando => comando.modelo)
-    @JoinColumn({name: 'id_fabricante'})
-    comando: number;
-
-    @OneToMany(type => tb_tipo_comando, tipo_comando => tipo_comando.modelo)
+    @ManyToMany(type => tb_tipo_comando, tipo_comando => tipo_comando.modelo)
+    @JoinTable({
+        name: 'tb_modelo_tipo_comando',
+        joinColumn: {
+          name: 'id_modelo',
+          referencedColumnName: 'id_modelo',
+        },
+        inverseJoinColumn: {
+          name: 'id_tipo_comando',
+          referencedColumnName: 'id_tipo_comando',
+        },
+      })
     tipo_comando: number;
 
 }

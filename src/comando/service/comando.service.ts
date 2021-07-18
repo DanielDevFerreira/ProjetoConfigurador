@@ -20,7 +20,7 @@ export class CommandService {
 //==========================================================================================
 
     async getAll(): Promise<tb_comando[]>{
-        return await this.commandRepository.find({relations:['modelo', 'tipo_comando']});
+        return await this.commandRepository.find();
     }
 
 //==========================================================================================
@@ -46,13 +46,10 @@ export class CommandService {
         const command = await this.getCommandById(id);
 
         command.comando = updateCommandDto.comando;
-        command.campos_do_comando = updateCommandDto.campos_do_comando;
         command.id_status = updateCommandDto.id_status;
         command.observacao = updateCommandDto.observacao;
         command.observacao = updateCommandDto.observacao;
         command.id_login_update = updateCommandDto.id_login_update;
-        command.modelo = updateCommandDto.id_modelo
-        command.tipo_comando = updateCommandDto.id_tipo_comando
         command.dt_update = new Date();
         
         try {

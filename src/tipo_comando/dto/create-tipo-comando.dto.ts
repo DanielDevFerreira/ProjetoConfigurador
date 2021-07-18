@@ -13,8 +13,5 @@ export class CommandTypeDto {
     @IsOptional()
     id_login_insert: number;
 
-    @IsNotEmpty({message: 'Obrigatório informar o tipo do comando'})
-    id_modelo: number;
-
     dt_insert: Date;
 }

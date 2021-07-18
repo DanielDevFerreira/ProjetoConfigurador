@@ -27,7 +27,7 @@ import { CommandModule } from './comando/comando.module';
     ModeloModule,
     FabricanteModule,
     CommandTypeModule,
-    CommandModule
+    CommandModule,
   ],
   controllers: [],
   providers: [],
