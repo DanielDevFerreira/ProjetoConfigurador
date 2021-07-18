@@ -13,7 +13,7 @@ export class CommandController {
     ){}
 
     @Post()
-    async createCommandType(@Body() commandDto: CommandDto): Promise<tb_comando>{
+    async createCommand(@Body() commandDto: CommandDto): Promise<tb_comando>{
         return this.commandService.createCommand(commandDto);
     }
 
@@ -27,14 +27,14 @@ export class CommandController {
 //==========================================================================================
 
     @Get('/:id')
-    async getCommandTypeById(@Param('id') id: number): Promise<tb_comando>{
+    async getCommandById(@Param('id') id: number): Promise<tb_comando>{
         return this.commandService.getCommandById(id);
     }
 
 //==========================================================================================
 
     @Patch('/:id')
-    async updateCommandType(@Param('id') id: number, @Body() updateCommandDto: UpdateCommandDto): Promise<tb_comando>{
+    async updateCommand(@Param('id') id: number, @Body() updateCommandDto: UpdateCommandDto): Promise<tb_comando>{
         return this.commandService.updateCommand(id, updateCommandDto);
     }
 

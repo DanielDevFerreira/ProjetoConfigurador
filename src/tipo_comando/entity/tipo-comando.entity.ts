@@ -1,6 +1,6 @@
 import { tb_comando } from "src/comando/entity/comando.entity";
 import { tb_modelo } from "src/modelo/entity/modelo.entity";
-import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class tb_tipo_comando{
@@ -31,8 +31,7 @@ export class tb_tipo_comando{
     @DeleteDateColumn()
     deletedAt: Date;
 
-    @ManyToMany(type => tb_modelo, modelo => modelo.tipo_comando)
-    @JoinColumn({name: 'id_modelo'})
-    modelo: number;
+    @OneToMany(type => tb_comando, comando => comando.tipo_comando)
+    comando2: number;
 
 }

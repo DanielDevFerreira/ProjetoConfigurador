@@ -36,18 +36,7 @@ export class tb_modelo{
     @JoinColumn({name: 'id_fabricante'})
     fabricante: number;
 
-    @ManyToMany(type => tb_tipo_comando, tipo_comando => tipo_comando.modelo)
-    @JoinTable({
-        name: 'tb_modelo_tipo_comando',
-        joinColumn: {
-          name: 'id_modelo',
-          referencedColumnName: 'id_modelo',
-        },
-        inverseJoinColumn: {
-          name: 'id_tipo_comando',
-          referencedColumnName: 'id_tipo_comando',
-        },
-      })
-    tipo_comando: number;
+    @OneToMany(type => tb_comando, comando => comando.modelo)
+    comando: number;
 
 }
