@@ -28,7 +28,7 @@ export class ModelRepository extends Repository<tb_modelo>{
             return manufacturer;
 
         } catch (error) {
-            throw new InternalServerErrorException('Error ao cadastrar fabricante!'); 
+            throw new InternalServerErrorException('Error ao cadastrar modelo!'); 
         } 
     }
 }

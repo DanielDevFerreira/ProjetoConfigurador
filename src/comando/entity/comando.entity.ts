@@ -17,7 +17,7 @@ export class tb_comando{
     @Column({type: 'int'})
     id_status: number;
 
-    @Column({length: 500})
+    @Column({length: 500,  nullable: true})
     observacao: string
 
     @Column({ type: "bigint", nullable: true})

@@ -13,6 +13,8 @@ export class CommandRepository extends Repository<tb_comando>{
             id_status,
             observacao,
             id_login_insert,
+            id_modelo,
+            id_tipo_comando
         } = commandDto
 
         const command = this.create({
@@ -20,6 +22,8 @@ export class CommandRepository extends Repository<tb_comando>{
             id_status,
             observacao,
             id_login_insert,
+            modelo: id_modelo,
+            tipo_comando: id_tipo_comando
         })
 
         try {

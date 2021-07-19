@@ -4,8 +4,8 @@ export class CommandDto {
     @IsNotEmpty()
     comando:string;
 
-    @IsNotEmpty({ message: 'Obrigatório informa o campos do comando!'})
-    campos_do_comando: any
+    // @IsNotEmpty({ message: 'Obrigatório informa o campos do comando!'})
+    // campos_do_comando: any
 
     @IsOptional()
     id_status: number;

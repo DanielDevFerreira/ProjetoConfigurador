@@ -20,7 +20,7 @@ export class CommandTypeService {
 //==========================================================================================
 
     async getAll(): Promise<tb_tipo_comando[]>{
-        return await this.commandTypeRepository.find({relations:['modelo']});
+        return await this.commandTypeRepository.find();
     }
 
 //==========================================================================================

@@ -14,7 +14,7 @@ export class tb_modelo{
     @Column({type: 'int'})
     id_status: number;
 
-    @Column({length: 500})
+    @Column({length: 500, nullable: true})
     observacao: string
 
     @Column({ type: "bigint", nullable: true})
@@ -32,7 +32,7 @@ export class tb_modelo{
     @DeleteDateColumn()
     deletedAt: Date;
 
-    @ManyToOne(type => tb_fabricante, fabricante => fabricante.modelo)
+    @ManyToOne(type => tb_fabricante, fabricante => fabricante.modelo, {eager: true})
     @JoinColumn({name: 'id_fabricante'})
     fabricante: number;
 
