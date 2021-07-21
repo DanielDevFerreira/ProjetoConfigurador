@@ -1,8 +1,7 @@
-
+import { tb_comando_campos } from "src/comando_campos/entity/comando-campos.entity";
 import { tb_modelo } from "src/modelo/entity/modelo.entity";
 import { tb_tipo_comando } from "src/tipo_comando/entity/tipo-comando.entity";
-import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-
+import { Column, DeleteDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 @Entity()
 export class tb_comando{
     @PrimaryGeneratedColumn()
@@ -10,9 +9,6 @@ export class tb_comando{
 
     @Column({length: 255})
     comando: string;
-    
-    // @Column({length: 255})
-    // campos_do_comando: string;
 
     @Column({type: 'int'})
     id_status: number;
@@ -35,6 +31,9 @@ export class tb_comando{
     @DeleteDateColumn()
     deletedAt: Date;
 
+    @OneToMany(type => tb_comando_campos, comando_campos => comando_campos.comando)
+    comando_campos: number;
+    
     @OneToOne(type => tb_modelo, modelo => modelo.comando)
     @JoinColumn({name: 'id_modelo'})
     modelo: number;

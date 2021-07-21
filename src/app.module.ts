@@ -7,6 +7,7 @@ import { ModeloModule } from './modelo/modelo.module';
 import { FabricanteModule } from './fabricante/fabricante.module';
 import { CommandTypeModule } from './tipo_comando/tipo-comando.module';
 import { CommandModule } from './comando/comando.module';
+import { CommandFieldsModule } from './comando_campos/comando-campos.module';
 
 
 @Module({
@@ -28,6 +29,7 @@ import { CommandModule } from './comando/comando.module';
     FabricanteModule,
     CommandTypeModule,
     CommandModule,
+    CommandFieldsModule
   ],
   controllers: [],
   providers: [],

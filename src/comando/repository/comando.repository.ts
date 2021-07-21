@@ -32,6 +32,7 @@ export class CommandRepository extends Repository<tb_comando>{
             return command;
 
         } catch (error) {
+            console.log(error);
             throw new InternalServerErrorException('Error ao cadastrar o tipo de comando!'); 
         } 
     }
