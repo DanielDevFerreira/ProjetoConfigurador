@@ -39,4 +39,6 @@ export class tb_modelo{
     @OneToMany(type => tb_comando, comando => comando.modelo)
     comando: number;
 
+    
+
 }

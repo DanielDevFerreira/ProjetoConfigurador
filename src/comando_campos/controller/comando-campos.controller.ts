@@ -6,13 +6,14 @@ import { CommandFieldsService} from '../service/comando-campos.service';
 
 @Controller('comando-campos')
 export class CommandFieldsController {
-    
+    obj:any;
+
     constructor(
         private commandFieldsService: CommandFieldsService
     ){}
 
     @Post()
-    async createCommandFields(@Body() commandFieldsDto: CommandFieldsDto): Promise<tb_comando_campos>{
+    async createCommandFields(@Body() commandFieldsDto: CommandFieldsDto ){ 
         return this.commandFieldsService.createCommandFields(commandFieldsDto);
     }
 

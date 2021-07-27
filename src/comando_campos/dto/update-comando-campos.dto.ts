@@ -12,7 +12,7 @@ export class UpdateCommandFieldsDto{
     tipo: string;
 
     @IsNotEmpty({message: ' Informe se o campo é obrigatório!'})
-    obrigatorio: string;
+    obrigatorio: boolean;
 
     @IsOptional()
     campos_do_comando: any;

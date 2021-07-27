@@ -17,25 +17,7 @@ export class tb_comando_campos{
     tipo: string;
 
     @Column({type: "boolean"})
-    obrigatorio: string;
-
-    @Column({type: 'int'})
-    id_status: number;
-
-    @Column({length: 500,  nullable: true})
-    observacao: string
-
-    @Column({ type: "bigint", nullable: true})
-    id_login_insert: number;
-
-    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
-    dt_insert: Date;
-
-    @Column({ type: "bigint", nullable: true})
-    id_login_update: number;
-
-    @Column({ type: "datetime", nullable: true})
-    dt_update: Date;
+    obrigatorio: boolean;
 
     @DeleteDateColumn()
     deletedAt: Date;

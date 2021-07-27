@@ -13,8 +13,8 @@ export class CommandFieldsService {
 
 //==========================================================================================
 
-    async createCommandFields(commandoFieldsDto: CommandFieldsDto): Promise<tb_comando_campos>{
-       return await this.commandFieldsRepository.createCommandFields(commandoFieldsDto);  
+    async createCommandFields(commandFieldsDto: CommandFieldsDto){
+       return await this.commandFieldsRepository.createCommandFields(commandFieldsDto);  
     }
 
 //==========================================================================================
@@ -44,11 +44,6 @@ export class CommandFieldsService {
         commandFields.label = updateCommandFieldsDto.label;
         commandFields.tipo = updateCommandFieldsDto.tipo;
         commandFields.obrigatorio = updateCommandFieldsDto.obrigatorio;
-        commandFields.id_status = updateCommandFieldsDto.id_status;
-        commandFields.observacao = updateCommandFieldsDto.observacao;
-        commandFields.observacao = updateCommandFieldsDto.observacao;
-        commandFields.id_login_update = updateCommandFieldsDto.id_login_update;
-        commandFields.dt_update = new Date();
         commandFields.comando = updateCommandFieldsDto.id_comando
         
         try {
