@@ -45,4 +45,11 @@ export class CommandFieldsController {
         return this.commandFieldsService.deleteCommandFields(id);
     }
 //==========================================================================================
+
+    @Get('id_comando/:id')
+        async getForeignKeyCommandoById(@Param('id') id: number): Promise<tb_comando_campos[]>{
+            return this.commandFieldsService.getForeignKeyCommandoById(id);
+        }
+
+
 }

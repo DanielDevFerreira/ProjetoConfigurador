@@ -75,4 +75,14 @@ export class CommandFieldsService {
             }
         } 
     }
+
+    async getForeignKeyCommandoById(id:number): Promise<tb_comando_campos[]>{
+        return await this.commandFieldsRepository.createQueryBuilder('campos')
+        .innerJoinAndSelect('campos.comando', 'comando')
+        .select(['label', 'campo', 'tipo', 'obrigatorio'])
+        .where('comando.id_comando =:id', {id: id})        
+        .getRawMany()
+    }
+
+
 }
