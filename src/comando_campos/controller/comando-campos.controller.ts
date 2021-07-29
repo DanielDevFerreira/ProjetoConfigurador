@@ -48,7 +48,7 @@ export class CommandFieldsController {
 //==========================================================================================
 
     @Delete('/:id')
-    deleteCommandFields(@Param('id') id:string){
+    deleteCommandFields(@Param('id') id:number){
         return this.commandFieldsService.deleteCommandFields(id);
     }
 //==========================================================================================

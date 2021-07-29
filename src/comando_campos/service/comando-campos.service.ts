@@ -89,15 +89,22 @@ export class CommandFieldsService {
 
   //==========================================================================================
 
-  async deleteCommandFields(id: string) {
-    const command = await this.commandFieldsRepository.findOne(id);
+  async deleteCommandFields(id: number) {
 
+    const command = this.getForeignKeyCommandoById(id)
+    //const command = await this.commandFieldsRepository.findOne(id);
+      console.log(command);
     if (!command) {
       throw new NotFoundException(`O comando com ID ${id} não encontrado!`);
     } else {
       try {
-        const result = await this.commandFieldsRepository.softDelete(id);
-        if (result.affected === 0) {
+        const result = await this.commandFieldsRepository.createQueryBuilder('delete')
+        .innerJoinAndSelect('delete.comando', 'comando')  
+        .softDelete()
+        .where('comando.id_comando = :id', {id: id} )
+		.execute();
+
+        if (!result) {
           throw new NotFoundException(`Erro ao deletar o tipo comando`);
         } else {
           return true;
