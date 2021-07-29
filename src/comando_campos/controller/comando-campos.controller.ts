@@ -12,6 +12,13 @@ export class CommandFieldsController {
         private commandFieldsService: CommandFieldsService
     ){}
 
+    @Get('teste/:id')
+    async getForeignKeyCommandoByIdUpdate(@Param('id') id: number): Promise<tb_comando_campos[]>{
+        return this.commandFieldsService.getForeignKeyCommandoByIdUpdate(id);
+    }
+
+//==========================================================================================
+
     @Post()
     async createCommandFields(@Body() commandFieldsDto: CommandFieldsDto ){ 
         return this.commandFieldsService.createCommandFields(commandFieldsDto);
@@ -34,7 +41,7 @@ export class CommandFieldsController {
 //==========================================================================================
 
     @Patch('/:id')
-    async updateCommandFields(@Param('id') id: number, @Body() updateCommandFieldsDto: UpdateCommandFieldsDto): Promise<tb_comando_campos>{
+    async updateCommandFields(@Param('id') id: number, @Body() updateCommandFieldsDto: UpdateCommandFieldsDto){
         return this.commandFieldsService.updateCommandFields(id, updateCommandFieldsDto);
     }
 

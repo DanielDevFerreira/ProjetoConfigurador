@@ -1,12 +1,9 @@
-import { IsNotEmpty, IsOptional } from "class-validator";
+import { IsOptional } from "class-validator";
 
 export class UpdateCommandDto{
     
-    @IsNotEmpty({message: 'Campo modelo obrigatório'})
-    comando: string;
-
     @IsOptional()
-    campos_do_comando: any;
+    comando: string;
 
     @IsOptional()
     id_status: number;
@@ -17,10 +14,10 @@ export class UpdateCommandDto{
     @IsOptional()
     id_login_update: number;
 
-    @IsNotEmpty({message: 'Obrigatório informar o tipo do comando'})
+    @IsOptional()
     id_tipo_comando: number;
 
-    @IsNotEmpty({message: 'Obrigatório informar o modelo'})
+    @IsOptional()
     id_modelo: number;
 
     dt_update: Date;

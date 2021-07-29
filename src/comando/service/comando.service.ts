@@ -48,9 +48,10 @@ export class CommandService {
         command.comando = updateCommandDto.comando;
         command.id_status = updateCommandDto.id_status;
         command.observacao = updateCommandDto.observacao;
-        command.observacao = updateCommandDto.observacao;
         command.id_login_update = updateCommandDto.id_login_update;
         command.dt_update = new Date();
+        command.modelo = updateCommandDto.id_modelo;
+        command.tipo_comando = updateCommandDto.id_tipo_comando;
         
         try {
             await this.commandRepository.save(command)

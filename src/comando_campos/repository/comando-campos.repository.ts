@@ -11,7 +11,6 @@ export class CommandFieldsRepository extends Repository<tb_comando_campos> {
     const { quantities, id_comando } = commandFieldsDto;
 
     quantities.forEach((element: any) => {
-      console.log(element.label);
       const commandFields = this.create({
         campo: element.campo,
         label: element.label,
@@ -25,9 +24,7 @@ export class CommandFieldsRepository extends Repository<tb_comando_campos> {
         return commandFields;
       } catch (error) {
         console.log(error);
-        throw new InternalServerErrorException(
-          'Error ao cadastrar o(s) campo(s) do comando!',
-        );
+        throw new InternalServerErrorException('Error ao cadastrar o(s) campo(s) do comando!');
       }
     });
   }
