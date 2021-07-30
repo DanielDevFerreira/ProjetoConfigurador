@@ -52,6 +52,11 @@ export class CommandFieldsController {
         return this.commandFieldsService.deleteCommandFields(id);
     }
 //==========================================================================================
+    @Delete('one-campo/:id')
+    deleteOneCommandFields(@Param('id') id:number){
+        return this.commandFieldsService.deleteOneCommandFields(id);
+    }
+//==========================================================================================
 
     @Get('id_comando/:id')
         async getForeignKeyCommandoById(@Param('id') id: number): Promise<tb_comando_campos[]>{

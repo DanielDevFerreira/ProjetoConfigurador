@@ -102,7 +102,33 @@ export class CommandFieldsService {
         .innerJoinAndSelect('delete.comando', 'comando')  
         .softDelete()
         .where('comando.id_comando = :id', {id: id} )
-		.execute();
+		    .execute();
+
+        if (!result) {
+          throw new NotFoundException(`Erro ao deletar o tipo comando`);
+        } else {
+          return true;
+        }
+      } catch (error) {
+        throw new InternalServerErrorException(
+          'Falha ao deletar o tipo comando!',
+        );
+      }
+    }
+  }
+
+  async deleteOneCommandFields(id: number){
+    console.log(id);
+    const command = this.getCommandFieldsById(id)
+
+    if(!command){
+      throw new NotFoundException(`O comando com ID ${id} não encontrado!`);
+    }else {
+      try {
+        const result = await this.commandFieldsRepository.createQueryBuilder('delete') 
+        .softDelete()
+        .where('id_comando_campos = :id', {id: id} )
+		    .execute();
 
         if (!result) {
           throw new NotFoundException(`Erro ao deletar o tipo comando`);
