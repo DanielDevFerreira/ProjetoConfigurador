@@ -100,7 +100,7 @@ export class CommandFieldsService {
       try {
         const result = await this.commandFieldsRepository.createQueryBuilder('delete')
         .innerJoinAndSelect('delete.comando', 'comando')  
-        .softDelete()
+        .delete()
         .where('comando.id_comando = :id', {id: id} )
 		    .execute();
 
@@ -118,7 +118,6 @@ export class CommandFieldsService {
   }
 
   async deleteOneCommandFields(id: number){
-    console.log(id);
     const command = this.getCommandFieldsById(id)
 
     if(!command){

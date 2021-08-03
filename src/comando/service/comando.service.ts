@@ -71,7 +71,7 @@ export class CommandService {
             throw new NotFoundException(`O comando com ID ${id} não encontrado!`);
         }else {
             try {
-                const result = await this.commandRepository.softDelete(id);
+                const result = await this.commandRepository.delete(id);
                 if(result.affected === 0){            
                     throw new NotFoundException(`Erro ao deletar o tipo comando`);
                 }else {
