@@ -13,6 +13,32 @@ export class CommandService {
 
 //==========================================================================================
 
+        // vai trazer o modelo do rastreador pelo id tipo comando 
+        async getModelByTypeCommand(id: number){
+            return this.commandRepository
+            .createQueryBuilder('models')
+            .innerJoinAndSelect('models.modelo', 'modelo')
+            .innerJoinAndSelect('models.tipo_comando', 'tipo_comando')
+            .select(['modelo.modelo'])
+            .where('tipo_comando.id_tipo_comando =:id', { id: id })
+            .getRawMany();
+        }
+
+//==========================================================================================
+
+        // vai pegar o tipo comando pelo id do modelo do rastreador
+        async getTypeCommandByModel(id: number){
+            return this.commandRepository
+            .createQueryBuilder('type')
+            .innerJoinAndSelect('type.tipo_comando', 'tipo_comando')
+            .innerJoinAndSelect('type.modelo', 'modelo')
+            .select(['tipo_comando.tipo_comando'])
+            .where('modelo.id_modelo =:id', { id: id })
+            .getRawMany();
+        }
+
+//==========================================================================================
+
     async createCommand(commandoDto: CommandDto): Promise<tb_comando>{
        return await this.commandRepository.createCommand(commandoDto);  
     }

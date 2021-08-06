@@ -45,4 +45,16 @@ export class CommandController {
         return this.commandService.deleteCommand(id);
     }
 //==========================================================================================
+
+    @Get('get/model/:id')
+    getModelByTypeCommand(@Param('id') id: number){
+        return this.commandService.getModelByTypeCommand(id);
+    }
+//==========================================================================================
+
+    @Get('get/typecommand/:id')
+    getTypeCommandByModel(@Param('id') id: number){
+       return this.commandService.getTypeCommandByModel(id);
+    }
+//==========================================================================================
 }
