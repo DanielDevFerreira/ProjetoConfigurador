@@ -79,4 +79,16 @@ export class ModelService {
 
        
     }
+
+    async getSendModel(id: any = null): Promise<tb_modelo[]> {
+        const sql =  this.modelRepository.createQueryBuilder('modelo')
+            .select([
+                'modelo.id_modelo',
+                'modelo.modelo']);
+            if (id != null){
+                console.log(id)
+                 sql.where(`modelo.id_modelo =:id`, { id: id }) 
+            }               
+                return sql.getMany();
+    }
 }

@@ -45,4 +45,10 @@ export class ModelController {
         return this.modelService.deleteModel(id);
     }
 //==========================================================================================
+
+     @Get('get/sendModel/:id?')
+    getSendModel(@Param('id') id?: number) {
+        return this.modelService.getSendModel(id);
+    }
+
 }

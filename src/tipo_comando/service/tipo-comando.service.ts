@@ -76,4 +76,17 @@ export class CommandTypeService {
             }
         } 
     }
+
+    
+    async getSendType(id: any = null): Promise<tb_tipo_comando[]> {
+        const sql =  this.commandTypeRepository.createQueryBuilder('type')
+            .select([              
+                'type.tipo_comando',
+                'type.id_tipo_comando']);
+            if (id != null){
+                console.log(id)
+                 sql.where(`type.id_tipo_comando =:id`, { id: id }) 
+            }               
+                return sql.getMany();
+    }
 }
