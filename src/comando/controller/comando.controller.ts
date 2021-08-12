@@ -46,14 +46,14 @@ export class CommandController {
     }
     //==========================================================================================
 
-    @Get('get/model/:id')
-    getModelByTypeCommand(@Param('id') id: number) {
+    @Get('get/model/:id?')
+    getModelByTypeCommand(@Param('id') id?: number) {
         return this.commandService.getModelByTypeCommand(id);
     }
     //==========================================================================================
 
-    @Get('get/typecommand/:id')
-    getTypeCommandByModel(@Param('id') id: number) {
+    @Get('get/typecommand/:id?')
+    getTypeCommandByModel(@Param('id') id?: number) {
         return this.commandService.getTypeCommandByModel(id);
     }
     //==========================================================================================

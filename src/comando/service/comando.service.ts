@@ -14,29 +14,52 @@ export class CommandService {
 
     // vai trazer o modelo do rastreador pelo id tipo comando 
     async getModelByTypeCommand(id: number) {
-        return this.commandRepository
-            .createQueryBuilder('models')
+        const sql =  this.commandRepository.createQueryBuilder('models')
+       // return this.commandRepository
+           // .createQueryBuilder('models')
             .innerJoinAndSelect('models.modelo', 'modelo')
             .innerJoinAndSelect('models.tipo_comando', 'tipo_comando')
-            .select(['modelo.modelo'])
-            .where('tipo_comando.id_tipo_comando =:id', { id: id })
-            .getRawMany();
-    }
+            .select(['modelo.modelo', 'modelo.id_modelo']);
+            if (id != null){
+                 sql.where(`tipo_comando.id_tipo_comando =:id`, { id: id }) 
+            }               
+                return sql.getRawMany();
+            // .where('tipo_comando.id_tipo_comando =:id', { id: id })
+            // .getRawMany();
+    } //SELECT id_modelo FROM `tb_comando` WHERE id_tipo_comando = 1;
 
     //==========================================================================================
 
     // vai pegar o tipo comando pelo id do modelo do rastreador
-    async getTypeCommandByModel(id: number) {
-        return this.commandRepository
-            .createQueryBuilder('type')
+    async getTypeCommandByModel(id: any = null): Promise<tb_comando[]> {
+        console.log(id)
+        const sql =  this.commandRepository.createQueryBuilder('type')
+            
             .innerJoinAndSelect('type.tipo_comando', 'tipo_comando')
             .innerJoinAndSelect('type.modelo', 'modelo')
-            .select(['tipo_comando.tipo_comando'])
-            .where('modelo.id_modelo =:id', { id: id })
-            .getRawMany();
-    }
+            .select(['tipo_comando.tipo_comando', 'tipo_comando.id_tipo_comando']);
+                
+            if (id != null){
 
-    //==========================================================================================
+                 sql.where(`modelo.id_modelo =:id`, { id: id }) 
+            }       
+            console.log(await sql.getMany())        
+                return sql.getRawMany();
+
+    }
+    /*
+       async getSendModel(id: any = null): Promise<tb_modelo[]> {
+        const sql =  this.modelRepository.createQueryBuilder('modelo')
+            .select([
+                'modelo.id_modelo',
+                'modelo.modelo']);
+            if (id != null){
+                console.log(id)
+                 sql.where(`modelo.id_modelo =:id`, { id: id }) 
+            }               
+                return sql.getMany();
+    }
+    *///==========================================================================================
 
     async createCommand(commandoDto: CommandDto): Promise<tb_comando> {
         return await this.commandRepository.createCommand(commandoDto);
@@ -124,20 +147,4 @@ export class CommandService {
 
   
 
-    async getSendType(id: any = null): Promise<tb_comando[]> {
-        const sql =  this.commandRepository.createQueryBuilder('comando')
-            .leftJoinAndSelect('comando.modelo', 'modelo')
-            .leftJoinAndSelect('comando.tipo_comando', 'tipo_comando')
-            .select([
-                'comando.id_comando',
-                'modelo.modelo',
-                'tipo_comando.tipo_comando',
-                'modelo.id_modelo',
-                'tipo_comando.id_tipo_comando']);
-            if (id != null){
-                console.log(id)
-                 sql.where(`tipo_comando.id_tipo_comando =:id`, { id: id }) 
-            }               
-                return sql.getMany();
-    }
 }
