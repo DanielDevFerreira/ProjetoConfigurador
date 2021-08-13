@@ -14,52 +14,35 @@ export class CommandService {
 
     // vai trazer o modelo do rastreador pelo id tipo comando 
     async getModelByTypeCommand(id: number) {
-        const sql =  this.commandRepository.createQueryBuilder('models')
-       // return this.commandRepository
-           // .createQueryBuilder('models')
+        const sql = this.commandRepository.createQueryBuilder('models')
             .innerJoinAndSelect('models.modelo', 'modelo')
             .innerJoinAndSelect('models.tipo_comando', 'tipo_comando')
-            .select(['modelo.modelo', 'modelo.id_modelo']);
-            if (id != null){
-                 sql.where(`tipo_comando.id_tipo_comando =:id`, { id: id }) 
-            }               
-                return sql.getRawMany();
-            // .where('tipo_comando.id_tipo_comando =:id', { id: id })
-            // .getRawMany();
-    } //SELECT id_modelo FROM `tb_comando` WHERE id_tipo_comando = 1;
+            .select(['modelo.modelo', 'modelo.id_modelo'])
+            .distinct(true)
+        if (id != null) {
+            sql.where(`tipo_comando.id_tipo_comando =:id`, { id: id })
+        }
+        return sql.getRawMany();
+    }
 
     //==========================================================================================
 
     // vai pegar o tipo comando pelo id do modelo do rastreador
     async getTypeCommandByModel(id: any = null): Promise<tb_comando[]> {
         console.log(id)
-        const sql =  this.commandRepository.createQueryBuilder('type')
-            
+        const sql = this.commandRepository.createQueryBuilder('type')
+
             .innerJoinAndSelect('type.tipo_comando', 'tipo_comando')
             .innerJoinAndSelect('type.modelo', 'modelo')
-            .select(['tipo_comando.tipo_comando', 'tipo_comando.id_tipo_comando']);
-                
-            if (id != null){
-
-                 sql.where(`modelo.id_modelo =:id`, { id: id }) 
-            }       
-            console.log(await sql.getMany())        
-                return sql.getRawMany();
+            .select(['tipo_comando.tipo_comando', 'tipo_comando.id_tipo_comando'])
+            .distinct(true)
+        if (id != null) {
+            sql.where(`modelo.id_modelo =:id`, { id: id })
+        }
+        return sql.getRawMany();
 
     }
-    /*
-       async getSendModel(id: any = null): Promise<tb_modelo[]> {
-        const sql =  this.modelRepository.createQueryBuilder('modelo')
-            .select([
-                'modelo.id_modelo',
-                'modelo.modelo']);
-            if (id != null){
-                console.log(id)
-                 sql.where(`modelo.id_modelo =:id`, { id: id }) 
-            }               
-                return sql.getMany();
-    }
-    *///==========================================================================================
+    //==========================================================================================
 
     async createCommand(commandoDto: CommandDto): Promise<tb_comando> {
         return await this.commandRepository.createCommand(commandoDto);
@@ -67,9 +50,7 @@ export class CommandService {
 
     //==========================================================================================
 
-    // async getAll(): Promise<tb_comando[]>{
-    //     return await this.commandRepository.find();
-    // }
+
     async getAll(): Promise<tb_comando[]> {
         return this.commandRepository.createQueryBuilder('comando')
             .leftJoinAndSelect('comando.modelo', 'modelo')
@@ -145,6 +126,21 @@ export class CommandService {
         }
     }
 
-  
+    // pegando os campos do comando para enviar via SMS
+    async SendModelOrTypeCommand(id_modelo: any = null, id_tipo_comando: any = null): Promise<tb_comando[]>{
+ 
+        return this.commandRepository.createQueryBuilder('all')
+        .leftJoinAndSelect('all.modelo','modelo')
+        .leftJoinAndSelect('all.tipo_comando','tipo_comando')
+        .select([
+            'all.id_comando'
+           ])
+         .where('modelo.id_modelo = :id_modelo AND tipo_comando.id_tipo_comando = :id_tipo_comando', {id_modelo: id_modelo, id_tipo_comando: id_tipo_comando})
+         .getMany()    
+     }
+     //SELECT id_comando FROM `tb_comando` WHERE `id_modelo` = 1 AND `id_tipo_comando`= 3;
+ 
+
+
 
 }

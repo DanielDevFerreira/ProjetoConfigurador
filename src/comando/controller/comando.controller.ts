@@ -1,3 +1,4 @@
+import { Query } from '@nestjs/common';
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { CommandDto } from '../dto/create-comando.dto';
 
@@ -57,6 +58,10 @@ export class CommandController {
         return this.commandService.getTypeCommandByModel(id);
     }
     //==========================================================================================
-  
+    @Get('get/command/send')
+    SendModelOrTypeCommand(@Query('id_modelo') id_modelo: any, @Query('id_tipo_comando') id_tipo_comando: any){
+        return this.commandService.SendModelOrTypeCommand(id_modelo, id_tipo_comando);
+    }
+
 
 }
