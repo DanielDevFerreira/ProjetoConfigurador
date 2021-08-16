@@ -138,9 +138,4 @@ export class CommandService {
          .where('modelo.id_modelo = :id_modelo AND tipo_comando.id_tipo_comando = :id_tipo_comando', {id_modelo: id_modelo, id_tipo_comando: id_tipo_comando})
          .getMany()    
      }
-     //SELECT id_comando FROM `tb_comando` WHERE `id_modelo` = 1 AND `id_tipo_comando`= 3;
- 
-
-
-
 }

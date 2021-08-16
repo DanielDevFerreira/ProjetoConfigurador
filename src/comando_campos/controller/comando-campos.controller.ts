@@ -62,6 +62,5 @@ export class CommandFieldsController {
         async getForeignKeyCommandoById(@Param('id') id: number): Promise<tb_comando_campos[]>{
             return this.commandFieldsService.getForeignKeyCommandoById(id);
         }
-
-
+  
 }

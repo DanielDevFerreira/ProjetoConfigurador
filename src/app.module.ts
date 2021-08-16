@@ -8,7 +8,7 @@ import { FabricanteModule } from './fabricante/fabricante.module';
 import { CommandTypeModule } from './tipo_comando/tipo-comando.module';
 import { CommandModule } from './comando/comando.module';
 import { CommandFieldsModule } from './comando_campos/comando-campos.module';
-
+import { EnvioModule } from './envio/envio.module';
 
 @Module({
   imports: [
@@ -29,7 +29,8 @@ import { CommandFieldsModule } from './comando_campos/comando-campos.module';
     FabricanteModule,
     CommandTypeModule,
     CommandModule,
-    CommandFieldsModule
+    CommandFieldsModule,
+    EnvioModule,
   ],
   controllers: [],
   providers: [],

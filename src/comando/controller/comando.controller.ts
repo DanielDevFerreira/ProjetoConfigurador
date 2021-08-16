@@ -62,6 +62,4 @@ export class CommandController {
     SendModelOrTypeCommand(@Query('id_modelo') id_modelo: any, @Query('id_tipo_comando') id_tipo_comando: any){
         return this.commandService.SendModelOrTypeCommand(id_modelo, id_tipo_comando);
     }
-
-
 }
