@@ -133,7 +133,8 @@ export class CommandService {
         .leftJoinAndSelect('all.modelo','modelo')
         .leftJoinAndSelect('all.tipo_comando','tipo_comando')
         .select([
-            'all.id_comando'
+            'all.id_comando',
+            'all.comando'
            ])
          .where('modelo.id_modelo = :id_modelo AND tipo_comando.id_tipo_comando = :id_tipo_comando', {id_modelo: id_modelo, id_tipo_comando: id_tipo_comando})
          .getMany()    

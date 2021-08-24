@@ -13,13 +13,13 @@ export class EnvioController {
     @Post()
     sendCommand(@Body() sendDto: SendCommandDto){
 
-        const {receivers, content} = sendDto;
+        const {telefone, comando} = sendDto;
         const client = new Client();
 
         const args = {
             data: {
-              content: content,
-              receivers: receivers
+              content: comando,
+              receivers: telefone
             },
             headers: {
               "Content-Type": "application/json",
