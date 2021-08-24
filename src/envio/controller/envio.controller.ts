@@ -1,7 +1,8 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Res } from '@nestjs/common';
 import { SendCommandDto } from '../dto/send-command.dto';
 import { EnvioService } from '../service/envio.service';
 import { Client } from 'node-rest-client';
+import { Response } from 'express';
 
 @Controller('envio')
 export class EnvioController {
@@ -11,7 +12,7 @@ export class EnvioController {
     ){}
 
     @Post()
-    sendCommand(@Body() sendDto: SendCommandDto){
+    async sendCommand(@Res() response: Response, @Body() sendDto: SendCommandDto): Promise<any>{
 
         const {telefone, comando} = sendDto;
         const client = new Client();
@@ -27,12 +28,8 @@ export class EnvioController {
             }
           };
       
-         client.post("https://sms.comtele.com.br/api/v2/send", args, function(data) {
-            console.log(data);
+          await client.post("https://sms.comtele.com.br/api/v2/send", args, async function(data) {
+            response.status(200).send(data);
           });   
-
-          if(client){
-              return "Comando enviado com sucesso!";
-          }
     }
 }
