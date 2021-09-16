@@ -29,7 +29,6 @@ export class CommandService {
 
     // vai pegar o tipo comando pelo id do modelo do rastreador
     async getTypeCommandByModel(id: any = null): Promise<tb_comando[]> {
-        console.log(id)
         const sql = this.commandRepository.createQueryBuilder('type')
 
             .innerJoinAndSelect('type.tipo_comando', 'tipo_comando')

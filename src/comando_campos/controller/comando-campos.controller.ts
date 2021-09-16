@@ -1,9 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { CommandFieldsDto } from '../dto/create-comando-campos.dto';
 import { UpdateCommandFieldsDto } from '../dto/update-comando-campos.dto';
 import { tb_comando_campos } from '../entity/comando-campos.entity';
 import { CommandFieldsService} from '../service/comando-campos.service';
 
+@UseGuards(AuthGuard())
 @Controller('comando-campos')
 export class CommandFieldsController {
     obj:any;

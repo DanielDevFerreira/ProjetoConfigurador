@@ -14,7 +14,7 @@ async function bootstrap() {
     credentials: true,
     origin: 'http://localhost:4200',
   });
-  app.use('/', express.static('assets/img'));
+  // app.use('/', express.static('assets/img'));
   // app.use(csurf());
   const port = 3000;
   await app.listen(port);

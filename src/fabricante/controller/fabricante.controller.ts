@@ -1,9 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ManufacturerDto } from '../dto/createManufacturer.dto';
 import { UpdateManufacturerDto } from '../dto/updateManufacturer.dto';
 import { tb_fabricante } from '../entity/fabricante.entity';
 import { ManufacturerService } from '../service/fabricante.service';
 
+@UseGuards(AuthGuard())
 @Controller('fabricante')
 export class ManufacturerController {
 

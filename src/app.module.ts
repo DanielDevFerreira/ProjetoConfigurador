@@ -9,18 +9,26 @@ import { CommandTypeModule } from './tipo_comando/tipo-comando.module';
 import { CommandModule } from './comando/comando.module';
 import { CommandFieldsModule } from './comando_campos/comando-campos.module';
 import { EnvioModule } from './envio/envio.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '',
-      database: 'configurador',
-      autoLoadEntities: true,
-      synchronize: true,
+    ConfigModule.forRoot({
+      envFilePath: [`.env.stage.dev`]
+    }),
+    TypeOrmModule.forRootAsync({
+      imports:[ConfigModule],
+      inject:[ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        type: 'mysql',
+        host: configService.get('DB_HOST'),
+        port: configService.get('DB_PORT'),
+        username: configService.get('DB_USERNAME'),
+        password: configService.get('DB_PASSWORD'),
+        database: configService.get('DB_DATABASE'),        
+        autoLoadEntities: true,
+        synchronize: true,
+      })
     }),
     UserModule,
     AuthModule,

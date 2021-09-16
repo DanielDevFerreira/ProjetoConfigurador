@@ -1,11 +1,12 @@
-import { Query } from '@nestjs/common';
+import { Query, UseGuards } from '@nestjs/common';
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { CommandDto } from '../dto/create-comando.dto';
-
 import { UpdateCommandDto } from '../dto/update-comando.dto';
 import { tb_comando } from '../entity/comando.entity';
 import { CommandService } from '../service/comando.service';
 
+@UseGuards(AuthGuard())
 @Controller('comando')
 export class CommandController {
 

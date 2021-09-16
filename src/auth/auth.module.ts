@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -9,12 +10,19 @@ import { AuthRepository } from './repository/auth.repository';
 import { AuthService } from './service/auth.service';
 @Module({
     imports:[
+        ConfigModule.forRoot({
+            envFilePath: [`.env.stage.dev`]
+        }),
         PassportModule.register({defaultStrategy: 'jwt'}),
-        JwtModule.register({
-            secret: 'rastreeiFaleFlex',
-            signOptions:{
-                expiresIn: 3600,
-            }
+        JwtModule.registerAsync({
+            imports:[ConfigModule],
+            inject: [ConfigService],
+            useFactory: async (configService: ConfigService) => ({
+                secret: configService.get('JWT_SECRET'),
+                signOptions:{
+                    expiresIn: 32400,
+                }
+            }),
         }),
         TypeOrmModule.forFeature([
             AuthRepository

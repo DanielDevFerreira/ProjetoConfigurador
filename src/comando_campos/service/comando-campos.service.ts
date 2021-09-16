@@ -93,7 +93,7 @@ export class CommandFieldsService {
 
     const command = this.getForeignKeyCommandoById(id)
     //const command = await this.commandFieldsRepository.findOne(id);
-      console.log(command);
+     // console.log(command);
     if (!command) {
       throw new NotFoundException(`O comando com ID ${id} não encontrado!`);
     } else {

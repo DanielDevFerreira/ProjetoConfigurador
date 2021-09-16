@@ -1,13 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ModelDto } from '../dto/create-model.dto';
 import { UpdateModelDto } from '../dto/update-model.dto';
 import { tb_modelo } from '../entity/modelo.entity';
 import { ModelService } from '../service/modelo.service';
 
+@UseGuards(AuthGuard())
 @Controller('modelo')
 export class ModelController {
 
-    
     constructor(
         private modelService: ModelService
     ){}
